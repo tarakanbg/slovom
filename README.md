@@ -35,6 +35,8 @@ product3.price.to_s => "0.75"
 product3.price.slovom => "седемдесет и пет стотинки"
 ```
 
+It parses numbers of less than 1 quadrillion (1000000000000000), as higher numbers are not likely to be used in financial transactions and hence no need to be expressed verbally. It returns the string "много" if higher number is used.
+
 ## Contributing
 
 1. Fork it

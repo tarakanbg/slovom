@@ -1,6 +1,8 @@
 #encoding: utf-8
 require "slovom/version"
 require 'bigdecimal'
+# require 'string'
+# require 'integer'
 
 class BigDecimal
   def slovom
@@ -12,13 +14,13 @@ module Slovom
   def self.slovom(input)
     input = input.round(2)
     levs = input.fix.to_i
-    stotinki = input.frac.to_s.gsub("0.", '')
+    stotinki = input.frac.to_s('F').gsub("0.", '')
     stotinki = stotinki+"0" if stotinki.length == 1
     stotinki = stotinki.to_i
     levs_title = levs_title(levs)
     stotinki_title = stotinki_title(stotinki)
     levs_slovom = levs_slovom(levs)
-    stotinki_slovom = levs_slovom(stotinki)
+    stotinki_slovom = levs_slovom(stotinki, feminine=true)
     if stotinki_slovom.nil? || stotinki_slovom == "много"
       return levs_slovom + levs_title
     elsif levs_slovom.nil? || levs_slovom == "много"
@@ -51,16 +53,16 @@ private
     end
   end
 
-  def self.levs_slovom(levs)
+  def self.levs_slovom(levs, feminine=nil)
     case levs
-      when 1..99 then below_hundred(levs)
-      when 100..999 then hundreds(levs)
-      when 1000..9999 then thousands(levs)
-      when 10000..99999 then medium_thousands(levs)
-      when 100000..999999 then big_thousands(levs)
-      when 1000000..999999999 then millions(levs)
-      when 1000000000..999999999999 then billions(levs)
-      when 1000000000000..999999999999999 then trillions(levs)
+      when 1..99 then below_hundred(levs, feminine)
+      when 100..999 then hundreds(levs, feminine)
+      when 1000..9999 then thousands(levs, feminine)
+      when 10000..99999 then medium_thousands(levs, feminine)
+      when 100000..999999 then big_thousands(levs, feminine)
+      when 1000000..999999999 then millions(levs, feminine)
+      when 1000000000..999999999999 then billions(levs, feminine)
+      when 1000000000000..999999999999999 then trillions(levs, feminine)
       else
         too_big
     end
@@ -173,7 +175,7 @@ private
     end
   end
 
-  def self.thousands(digits)
+  def self.thousands(digits, feminine=nil)
     final_digits = digits.to_s[2..3].to_i
     final_three_digits = digits.to_s[1..3].to_i
     first_digit = digits.to_s.chr.to_i
@@ -205,7 +207,7 @@ private
     end
   end
 
-  def self.medium_thousands(digits)
+  def self.medium_thousands(digits, feminine=nil)
     first_two_digits = digits.to_s[0..1].to_i
     last_three_digits = digits.to_s[2..5].to_i
     if last_three_digits == 0
@@ -215,7 +217,7 @@ private
     end
   end
 
-  def self.big_thousands(digits)
+  def self.big_thousands(digits, feminine=nil)
     first_three_digits = digits.to_s[0..2].to_i
     last_three_digits = digits.to_s[3..5].to_i
     if last_three_digits == 0
@@ -225,7 +227,7 @@ private
     end
   end
 
-  def self.millions(digits)
+  def self.millions(digits, feminine=nil)
     count = digits.to_s.length
     if count == 7
       millions = digits.to_s[0].to_i
@@ -242,7 +244,7 @@ private
     levs_slovom(millions) + milion_word + levs_slovom(thousands)
   end
 
-  def self.billions(digits)
+  def self.billions(digits, feminine=nil)
     count = digits.to_s.length
     if count == 10
       billions = digits.to_s[0].to_i
@@ -259,7 +261,7 @@ private
     levs_slovom(billions) + billion_word + levs_slovom(millions)
   end
 
-  def self.trillions(digits)
+  def self.trillions(digits, feminine=nil)
     count = digits.to_s.length
     if count == 13
       trillions = digits.to_s[0].to_i
