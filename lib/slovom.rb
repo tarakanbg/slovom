@@ -241,7 +241,11 @@ private
     end
     milion_word = " милиона "
     milion_word = " милион " if millions == 1
-    levs_slovom(millions) + milion_word + levs_slovom(thousands)
+
+    string = levs_slovom(millions) + milion_word
+    string += " и " unless levs_slovom(thousands).include? " и " or levs_slovom(thousands) == "много"
+    string += levs_slovom(thousands) unless levs_slovom(thousands) == "много"
+    return string.gsub(/\s+/, " ").strip
   end
 
   def self.billions(digits, feminine=nil)
@@ -258,7 +262,11 @@ private
     end
     billion_word = " милиарда "
     billion_word = " милиард " if billions == 1
-    levs_slovom(billions) + billion_word + levs_slovom(millions)
+
+    string = levs_slovom(billions) + billion_word
+    string += " и " unless levs_slovom(millions).include? " и " or levs_slovom(millions) == "много"
+    string += levs_slovom(millions) unless levs_slovom(millions) == "много"
+    return string.gsub(/\s+/, " ").strip
   end
 
   def self.trillions(digits, feminine=nil)
@@ -275,7 +283,11 @@ private
     end
     trillion_word = " трилиона "
     trillion_word = " трилион " if trillions == 1
-    levs_slovom(trillions) + trillion_word + levs_slovom(billions)
+
+    string = levs_slovom(trillions) + trillion_word
+    string += " и " unless levs_slovom(billions).include? " и " or levs_slovom(billions) == "много"
+    string += levs_slovom(billions) unless levs_slovom(billions) == "много"
+    return string.gsub(/\s+/, " ").strip
   end
 
 end

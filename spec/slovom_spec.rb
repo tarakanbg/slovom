@@ -102,6 +102,44 @@ describe BigDecimal do
 
       number = BigDecimal.new("31804319906444.10")
       number.slovom.should eq("тридесет и един трилиона осемстотин и четири милиарда триста и деветнадесет милиона деветстотин и шест хиляди четиристотин четиридесет и четири лева и десет стотинки")
+
+      number = BigDecimal.new("1.01")
+      number.slovom.should eq("един лев и една стотинка")
+    end
+
+    it "converts levs into a valid string" do
+      number = BigDecimal.new("1.00")
+      number.slovom.should eq("един лев")
+
+      number = BigDecimal.new("2.00")
+      number.slovom.should eq("два лева")
+
+      number = BigDecimal.new("14.00")
+      number.slovom.should eq("четиринадесет лева")
+
+      number = BigDecimal.new("76.00")
+      number.slovom.should eq("седемдесет и шест лева")
+
+      number = BigDecimal.new("293.00")
+      number.slovom.should eq("двеста деветдесет и три лева")
+
+      number = BigDecimal.new("1000.00")
+      number.slovom.should eq("хиляда лева")
+
+      number = BigDecimal.new("2000.00")
+      number.slovom.should eq("две хиляди лева")
+
+      number = BigDecimal.new("1000000.00")
+      number.slovom.should eq("един милион лева")
+
+      number = BigDecimal.new("1000001.00")
+      number.slovom.should eq("един милион и един лева")
+
+      number = BigDecimal.new("1000000000.00")
+      number.slovom.should eq("един милиард лева")
+
+      number = BigDecimal.new("1000000000000.00")
+      number.slovom.should eq("един трилион лева")
     end
   end
 
