@@ -117,11 +117,32 @@ describe BigDecimal do
       number = BigDecimal.new("14.00")
       number.slovom.should eq("четиринадесет лева")
 
+      number = BigDecimal.new("17.00")
+      number.slovom.should eq("седемнадесет лева")
+
+      number = BigDecimal.new("18.00")
+      number.slovom.should eq("осемнадесет лева")
+
+      number = BigDecimal.new("20.00")
+      number.slovom.should eq("двадесет лева")
+
+      number = BigDecimal.new("30.00")
+      number.slovom.should eq("тридесет лева")
+
       number = BigDecimal.new("76.00")
       number.slovom.should eq("седемдесет и шест лева")
 
       number = BigDecimal.new("293.00")
       number.slovom.should eq("двеста деветдесет и три лева")
+
+      number = BigDecimal.new("303.00")
+      number.slovom.should eq("триста и три лева")
+
+      number = BigDecimal.new("452.00")
+      number.slovom.should eq("четиристотин петдесет и два лева")
+
+      number = BigDecimal.new("811.00")
+      number.slovom.should eq("осемстотин и единадесет лева")
 
       number = BigDecimal.new("1000.00")
       number.slovom.should eq("хиляда лева")
@@ -132,14 +153,23 @@ describe BigDecimal do
       number = BigDecimal.new("1000000.00")
       number.slovom.should eq("един милион лева")
 
+      number = BigDecimal.new("156320010.00")
+      number.slovom.should eq("сто петдесет и шест милиона триста и двадесет хиляди и десет лева")
+
       number = BigDecimal.new("1000001.00")
       number.slovom.should eq("един милион и един лева")
 
       number = BigDecimal.new("1000000000.00")
       number.slovom.should eq("един милиард лева")
 
+      number = BigDecimal.new("121000000000.00")
+      number.slovom.should eq("сто двадесет и един милиарда лева")
+
       number = BigDecimal.new("1000000000000.00")
       number.slovom.should eq("един трилион лева")
+
+      number = BigDecimal.new("511000000000000.00")
+      number.slovom.should eq("петстотин и единадесет трилиона лева")
     end
   end
 

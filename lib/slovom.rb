@@ -1,8 +1,6 @@
 #encoding: utf-8
 require "slovom/version"
 require 'bigdecimal'
-# require 'string'
-# require 'integer'
 
 class BigDecimal
   def slovom
@@ -15,42 +13,25 @@ module Slovom
     input = input.round(2)
     levs = input.fix.to_i
     stotinki = input.frac.to_s('F').gsub("0.", '')
-    stotinki = stotinki+"0" if stotinki.length == 1
-    stotinki = stotinki.to_i
-    levs_title = levs_title(levs)
-    stotinki_title = stotinki_title(stotinki)
-    levs_slovom = levs_slovom(levs)
-    stotinki_slovom = levs_slovom(stotinki, feminine=true)
-    if stotinki_slovom.nil? || stotinki_slovom == "много"
-      return levs_slovom + levs_title
-    elsif levs_slovom.nil? || levs_slovom == "много"
-      return stotinki_slovom + stotinki_title
-    else
-      return levs_slovom + levs_title + " и " + stotinki_slovom + stotinki_title
-    end
+    stotinki = (stotinki+"0")[0..1].to_i
+    output = ""
+    output += levs_slovom(levs) + levs_title(levs) unless levs_slovom(levs).nil? || levs_slovom(levs) == "много"
+    output += " и " unless levs_slovom(levs).nil? || levs_slovom(levs) == "много" || levs_slovom(stotinki, feminine=true).nil? || levs_slovom(stotinki, feminine=true) == "много"
+    output += levs_slovom(stotinki, feminine=true) + stotinki_title(stotinki) unless levs_slovom(stotinki, feminine=true).nil? || levs_slovom(stotinki, feminine=true) == "много"
+    return output
   end
 
-public
+private
   def self.too_big
     "много"
   end
 
-private
-
   def self.levs_title(levs)
-    if levs == 1
-      " лев"
-    else
-      " лева"
-    end
+    levs == 1 ? " лев" : " лева"
   end
 
   def self.stotinki_title(stotinki)
-    if stotinki == 1
-      " стотинка"
-    else
-      " стотинки"
-    end
+    stotinki == 1 ? " стотинка" : " стотинки"
   end
 
   def self.levs_slovom(levs, feminine=nil)
@@ -60,9 +41,7 @@ private
       when 1000..9999 then thousands(levs, feminine)
       when 10000..99999 then medium_thousands(levs, feminine)
       when 100000..999999 then big_thousands(levs, feminine)
-      when 1000000..999999999 then millions(levs, feminine)
-      when 1000000000..999999999999 then billions(levs, feminine)
-      when 1000000000000..999999999999999 then trillions(levs, feminine)
+      when 1000000..999999999999999 then gazillions(levs, feminine)
       else
         too_big
     end
@@ -76,18 +55,11 @@ private
   end
 
   def self.basic_number(digits, feminine=nil)
-    if feminine == true
-      case digits
-        when 1 then return "една"
-        when 2 then return "две"
-      end
-    else
-      case digits
-        when 1 then return "един"
-        when 2 then return "два"
-      end
-    end
     case digits
+      when 1 then
+        feminine == true ? "една" : "един"
+      when 2 then
+        feminine == true ? "две" : "два"
       when 3 then "три"
       when 4 then "четири"
       when 5 then "пет"
@@ -98,81 +70,34 @@ private
       when 10 then "десет"
       when 11 then "единадесет"
       when 12 then "дванадесет"
-      when 13 then "тринадесет"
-      when 14 then "четиринадесет"
-      when 15 then "петнадесет"
-      when 16 then "шестнадесет"
-      when 17 then "седемнадесет"
-      when 18 then "осемнадесет"
-      when 19 then "деветнадесет"
+      when 13..19 then basic_number(digits.to_s[1].to_i)+"надесет"
       else
     end
   end
 
   def self.round_ten(digits, feminine=nil)
     second_digit = digits.to_s.reverse.chr.to_i
-    case digits
-      when 20 then "двадесет"
-      when 30 then "тридесет"
-      when 40 then "четиридесет"
-      when 50 then "петдесет"
-      when 60 then "шестдесет"
-      when 70 then "седемдесет"
-      when 80 then "осемдесет"
-      when 90 then "деветдесет"
-      when 21..29 then "двадесет и " + basic_number(second_digit, feminine)
-      when 31..39 then "тридесет и " + basic_number(second_digit, feminine)
-      when 41..49 then "четиридесет и " + basic_number(second_digit, feminine)
-      when 51..59 then "петдесет и " + basic_number(second_digit, feminine)
-      when 61..69 then "шестдесет и " + basic_number(second_digit, feminine)
-      when 71..79 then "седемдесет и " + basic_number(second_digit, feminine)
-      when 81..89 then "осемдесет и " + basic_number(second_digit, feminine)
-      when 91..99 then "деветдесет и " + basic_number(second_digit, feminine)
-      else
-    end
+    output = basic_number(digits.to_s[0].to_i)+"десет"
+    output += " и " + basic_number(second_digit, feminine) unless second_digit == 0
+    return output
   end
 
   def self.hundreds(digits, feminine=nil)
     final_digits = digits.to_s[1..3].to_i
-    case digits
-      when 100 then "сто"
-      when 200 then "двеста"
-      when 300 then "триста"
-      when 400 then "четиристотин"
-      when 500 then "петстотин"
-      when 600 then "шестстотин"
-      when 700 then "седемстотин"
-      when 800 then "осемстотин"
-      when 900 then "деветстотин"
-      when 101..119 then "сто" + " и " + basic_number(final_digits, feminine)
-      when 201..219 then "двеста" + " и " + basic_number(final_digits, feminine)
-      when 301..319 then "триста" + " и " + basic_number(final_digits, feminine)
-      when 401..419 then "четиристотин" + " и " + basic_number(final_digits, feminine)
-      when 501..519 then "петстотин" + " и " + basic_number(final_digits, feminine)
-      when 601..619 then "шестстотин" + " и " + basic_number(final_digits, feminine)
-      when 701..719 then "седемстотин" + " и " + basic_number(final_digits, feminine)
-      when 801..819 then "осемстотин" + " и " + basic_number(final_digits, feminine)
-      when 901..919 then "деветстотин" + " и " + basic_number(final_digits, feminine)
-      when 120..199 then "сто" + round_ten_andi(final_digits, feminine)
-      when 220..299 then "двеста" + round_ten_andi(final_digits, feminine)
-      when 320..399 then "триста" + round_ten_andi(final_digits, feminine)
-      when 420..499 then "четиристотин" + round_ten_andi(final_digits, feminine)
-      when 520..599 then "петстотин" + round_ten_andi(final_digits, feminine)
-      when 620..699 then "шестстотин" + round_ten_andi(final_digits, feminine)
-      when 720..799 then "седемстотин" + round_ten_andi(final_digits, feminine)
-      when 820..899 then "осемстотин" + round_ten_andi(final_digits, feminine)
-      when 920..999 then "деветстотин" + round_ten_andi(final_digits, feminine)
-      else
-    end
-  end
 
-  def self.round_ten_andi(digits, feminine=nil)
-    second_digit = digits.to_s.reverse.chr.to_i
-    if second_digit == 0
-      " и " + round_ten(digits, feminine)
-    else
-      " " + round_ten(digits, feminine)
+    first_digit = digits.to_s[0].to_i
+    case first_digit
+      when 1 then hh = "сто"
+      when 2 then hh = "двеста"
+      when 3 then hh = "триста"
+      when 4..9 then hh = basic_number(first_digit)+"стотин"
     end
+    output = hh
+    case final_digits
+      when 1..20 then output += " и "
+    end
+    output += " " + levs_slovom(final_digits, feminine) unless final_digits == 0
+    return output.gsub(/\s+/, " ").strip
   end
 
   def self.thousands(digits, feminine=nil)
@@ -227,66 +152,34 @@ private
     end
   end
 
-  def self.millions(digits, feminine=nil)
+  def self.gazillions(digits, feminine=nil)
     count = digits.to_s.length
-    if count == 7
-      millions = digits.to_s[0].to_i
-      thousands = digits.to_s[1..12].to_i
-    elsif count == 8
-      millions = digits.to_s[0..1].to_i
-      thousands = digits.to_s[2..12].to_i
-    elsif count == 9
-      millions = digits.to_s[0..2].to_i
-      thousands = digits.to_s[3..12].to_i
+    case count
+      when 7..9 then
+        base_count = 7
+        word_plural = " милиона "; word_singular = " милион "
+      when 10..12 then
+        base_count = 10
+        word_plural = " милиарда "; word_singular = " милиард "
+      when 13..15 then
+        base_count = 13
+        word_plural = " трилиона "; word_singular = " трилион "
     end
-    milion_word = " милиона "
-    milion_word = " милион " if millions == 1
-
-    string = levs_slovom(millions) + milion_word
-    string += " и " unless levs_slovom(thousands).include? " и " or levs_slovom(thousands) == "много"
-    string += levs_slovom(thousands) unless levs_slovom(thousands) == "много"
-    return string.gsub(/\s+/, " ").strip
-  end
-
-  def self.billions(digits, feminine=nil)
-    count = digits.to_s.length
-    if count == 10
-      billions = digits.to_s[0].to_i
-      millions = digits.to_s[1..18].to_i
-    elsif count == 11
-      billions = digits.to_s[0..1].to_i
-      millions = digits.to_s[2..18].to_i
-    elsif count == 12
-      billions = digits.to_s[0..2].to_i
-      millions = digits.to_s[3..18].to_i
+    if count == base_count
+      big_number = digits.to_s[0].to_i
+      small_number = digits.to_s[1..24].to_i
+    elsif count == base_count + 1
+      big_number = digits.to_s[0..1].to_i
+      small_number = digits.to_s[2..24].to_i
+    elsif count == base_count + 2
+      big_number = digits.to_s[0..2].to_i
+      small_number = digits.to_s[3..24].to_i
     end
-    billion_word = " милиарда "
-    billion_word = " милиард " if billions == 1
+    big_number == 1 ? word = word_singular : word = word_plural
 
-    string = levs_slovom(billions) + billion_word
-    string += " и " unless levs_slovom(millions).include? " и " or levs_slovom(millions) == "много"
-    string += levs_slovom(millions) unless levs_slovom(millions) == "много"
-    return string.gsub(/\s+/, " ").strip
-  end
-
-  def self.trillions(digits, feminine=nil)
-    count = digits.to_s.length
-    if count == 13
-      trillions = digits.to_s[0].to_i
-      billions = digits.to_s[1..24].to_i
-    elsif count == 14
-      trillions = digits.to_s[0..1].to_i
-      billions = digits.to_s[2..24].to_i
-    elsif count == 15
-      trillions = digits.to_s[0..2].to_i
-      billions = digits.to_s[3..24].to_i
-    end
-    trillion_word = " трилиона "
-    trillion_word = " трилион " if trillions == 1
-
-    string = levs_slovom(trillions) + trillion_word
-    string += " и " unless levs_slovom(billions).include? " и " or levs_slovom(billions) == "много"
-    string += levs_slovom(billions) unless levs_slovom(billions) == "много"
+    string = levs_slovom(big_number) + word
+    string += " и " unless levs_slovom(small_number).include? " и " or levs_slovom(small_number) == "много"
+    string += levs_slovom(small_number) unless levs_slovom(small_number) == "много"
     return string.gsub(/\s+/, " ").strip
   end
 

@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["svilen@rubystudio.net"]
   gem.description   = %q{Converts decimal currency numbers into words in Bulgarian language. For use in financial applications, documents, etc.}
   gem.summary       = %q{Converts decimal currency numbers into words in Bulgarian language}
-  gem.homepage      = ""
+  gem.homepage      = "https://github.com/tarakanbg/slovom"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
