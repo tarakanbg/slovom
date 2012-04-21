@@ -16,5 +16,5 @@ Gem::Specification.new do |gem|
   gem.version       = Slovom::VERSION
 
   gem.add_development_dependency "rspec"
-  #gem.add_dependency('rails', '~> 3.0')
+  gem.add_development_dependency "rake"
 end
