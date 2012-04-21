@@ -1,4 +1,4 @@
-# Slovom
+# Slovom [![Build Status](https://secure.travis-ci.org/tarakanbg/slovom.png)](http://travis-ci.org/tarakanbg/slovom)
 
 Converts decimal currency numbers into words in Bulgarian language. For use in financial applications, accounting documents, etc.
 
