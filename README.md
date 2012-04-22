@@ -1,6 +1,6 @@
 # Slovom [![Build Status](https://secure.travis-ci.org/tarakanbg/slovom.png)](http://travis-ci.org/tarakanbg/slovom)
 
-A Ruby gem which converts decimal currency numbers into words in Bulgarian language. For use in financial applications, accounting documents, etc.
+A Ruby gem which converts decimal currency numbers into text in Bulgarian language. For use in financial applications, accounting documents, and all other instances requiring currency verbalization.
 
 Handles the specifics of verbally presenting numbers and prices in Bulgarian, including grammatical irregularities, differences due to gender, singularity and plurality and the logic of using or omitting the "and" conjunction from the resulting string.
 

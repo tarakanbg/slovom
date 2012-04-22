@@ -4,8 +4,8 @@ require File.expand_path('../lib/slovom/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Svilen Vassilev"]
   gem.email         = ["svilen@rubystudio.net"]
-  gem.description   = %q{Converts decimal currency numbers into words in Bulgarian language. For use in financial applications, documents, etc.}
-  gem.summary       = %q{Converts decimal currency numbers into words in Bulgarian language}
+  gem.description   = %q{Converts decimal currency numbers into text in Bulgarian language. For use in financial applications, documents, and all other instances requiring currency verbalization.}
+  gem.summary       = %q{Converts decimal currency numbers into text in Bulgarian language}
   gem.homepage      = "https://github.com/tarakanbg/slovom"
 
   gem.files         = `git ls-files`.split($\)

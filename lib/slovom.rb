@@ -38,9 +38,7 @@ private
     case levs
       when 1..99 then below_hundred(levs, feminine)
       when 100..999 then hundreds(levs, feminine)
-      when 1000..9999 then thousands(levs, feminine)
-      when 10000..99999 then medium_thousands(levs, feminine)
-      when 100000..999999 then big_thousands(levs, feminine)
+      when 1000..999999 then thousands(levs, feminine)
       when 1000000..999999999999999 then gazillions(levs, feminine)
       else
         too_big
@@ -71,7 +69,6 @@ private
       when 11 then "единадесет"
       when 12 then "дванадесет"
       when 13..19 then basic_number(digits.to_s[1].to_i)+"надесет"
-      else
     end
   end
 
@@ -84,7 +81,6 @@ private
 
   def self.hundreds(digits, feminine=nil)
     final_digits = digits.to_s[1..3].to_i
-
     first_digit = digits.to_s[0].to_i
     case first_digit
       when 1 then hh = "сто"
@@ -101,55 +97,25 @@ private
   end
 
   def self.thousands(digits, feminine=nil)
-    final_digits = digits.to_s[2..3].to_i
-    final_three_digits = digits.to_s[1..3].to_i
-    first_digit = digits.to_s.chr.to_i
-    case digits
-      when 1000 then "хиляда"
-      when 1001..1999 then "хиляда " + evaluate_hundreds(final_three_digits)
-      when 2000 then "две хиляди"
-      when 2001..2999 then "две хиляди " + evaluate_hundreds(final_three_digits)
-      else
-        if final_three_digits == 0
-          below_hundred(first_digit) + " хиляди"
-        else
-          below_hundred(first_digit) + " хиляди " + evaluate_hundreds(final_three_digits)
-        end
-    end
-  end
-
-  def self.evaluate_hundreds(digits)
     count = digits.to_s.length
-    final_digits = digits.to_s[1..3].to_i if count == 3
-    if final_digits == 0
-      return "и "+ hundreds(digits)
-    else
-      if count == 2 || count == 1
-        "и " + below_hundred(digits)
-      elsif count == 3
-        hundreds(digits)
-      end
+    case count
+      when 4 then
+        small = digits.to_s[0].to_i
+        small == 1 ? hh = "хиляда " : hh = levs_slovom(small, feminine = true) + " хиляди "
+        big = digits.to_s[1..3].to_i
+      when 5 then
+        small = digits.to_s[0..1].to_i
+        hh = levs_slovom(small, feminine = true) + " хиляди "
+        big = digits.to_s[2..4].to_i
+      when 6 then
+        small = digits.to_s[0..2].to_i
+        hh = levs_slovom(small, feminine = true) + " хиляди "
+        big = digits.to_s[3..5].to_i
     end
-  end
-
-  def self.medium_thousands(digits, feminine=nil)
-    first_two_digits = digits.to_s[0..1].to_i
-    last_three_digits = digits.to_s[2..5].to_i
-    if last_three_digits == 0
-      below_hundred(first_two_digits, feminine=true) + " хиляди"
-    else
-      below_hundred(first_two_digits, feminine=true) + " хиляди " + evaluate_hundreds(last_three_digits)
-    end
-  end
-
-  def self.big_thousands(digits, feminine=nil)
-    first_three_digits = digits.to_s[0..2].to_i
-    last_three_digits = digits.to_s[3..5].to_i
-    if last_three_digits == 0
-      hundreds(first_three_digits, feminine=true) + " хиляди"
-    else
-      hundreds(first_three_digits, feminine=true) + " хиляди " + evaluate_hundreds(last_three_digits)
-    end
+    output = hh
+    output += " и " unless (levs_slovom(big).include?(" и ") && big.to_s.length == 3) or levs_slovom(big) == "много"
+    output += levs_slovom(big) unless big == 0
+    return output.gsub(/\s+/, " ").strip
   end
 
   def self.gazillions(digits, feminine=nil)
@@ -177,10 +143,9 @@ private
     end
     big_number == 1 ? word = word_singular : word = word_plural
 
-    string = levs_slovom(big_number) + word
-    string += " и " unless levs_slovom(small_number).include? " и " or levs_slovom(small_number) == "много"
-    string += levs_slovom(small_number) unless levs_slovom(small_number) == "много"
-    return string.gsub(/\s+/, " ").strip
+    output = levs_slovom(big_number) + word
+    output += " и " unless levs_slovom(small_number).include? " и " or levs_slovom(small_number) == "много"
+    output += levs_slovom(small_number) unless levs_slovom(small_number) == "много"
+    return output.gsub(/\s+/, " ").strip
   end
-
 end

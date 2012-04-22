@@ -147,8 +147,35 @@ describe BigDecimal do
       number = BigDecimal.new("1000.00")
       number.slovom.should eq("хиляда лева")
 
+      number = BigDecimal.new("1200.00")
+      number.slovom.should eq("хиляда и двеста лева")
+
+      number = BigDecimal.new("1407.00")
+      number.slovom.should eq("хиляда четиристотин и седем лева")
+
       number = BigDecimal.new("2000.00")
       number.slovom.should eq("две хиляди лева")
+
+      number = BigDecimal.new("2800.00")
+      number.slovom.should eq("две хиляди и осемстотин лева")
+
+      number = BigDecimal.new("10000.00")
+      number.slovom.should eq("десет хиляди лева")
+
+      number = BigDecimal.new("14100.00")
+      number.slovom.should eq("четиринадесет хиляди и сто лева")
+
+      number = BigDecimal.new("59374.00")
+      number.slovom.should eq("петдесет и девет хиляди триста седемдесет и четири лева")
+
+      number = BigDecimal.new("100000.00")
+      number.slovom.should eq("сто хиляди лева")
+
+      number = BigDecimal.new("200300.00")
+      number.slovom.should eq("двеста хиляди и триста лева")
+
+      number = BigDecimal.new("776315.00")
+      number.slovom.should eq("седемстотин седемдесет и шест хиляди триста и петнадесет лева")
 
       number = BigDecimal.new("1000000.00")
       number.slovom.should eq("един милион лева")
