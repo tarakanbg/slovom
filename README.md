@@ -1,8 +1,11 @@
-# Slovom [![Build Status](https://secure.travis-ci.org/tarakanbg/slovom.png)](http://travis-ci.org/tarakanbg/slovom)
+# Slovom
 
 A Ruby gem which converts decimal currency numbers into text in Bulgarian language. For use in financial applications, accounting documents, and all other instances requiring currency verbalization.
 
 Handles the specifics of verbally presenting numbers and prices in Bulgarian, including grammatical irregularities, differences due to gender, singularity and plurality and the logic of using or omitting the "and" conjunction from the resulting string.
+
+[![Build Status](https://secure.travis-ci.org/tarakanbg/slovom.png)](http://travis-ci.org/tarakanbg/slovom)
+[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/tarakanbg/slovom)
 
 ## Installation
 
@@ -45,5 +48,17 @@ Note the `.slovom` method is attached to the `BigDecimal` class, which is also u
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Added some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+4. Make sure all tests are passing!
+5. Push to the branch (`git push origin my-new-feature`)
+6. Create new Pull Request
+
+Copyright © 2012 [Svilen Vassilev](http://about.me/svilen)
+
+*If you find my work useful or time-saving, you can endorse it or buy me a beer:*
+
+[![endorse](http://api.coderwall.com/svilenv/endorse.png)](http://coderwall.com/svilenv)
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5FR7AQA4PLD8A)
+
+Released under the [MIT LICENSE](https://github.com/tarakanbg/slovom/blob/master/LICENSE)
+
+

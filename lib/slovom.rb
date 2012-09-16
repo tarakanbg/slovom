@@ -75,7 +75,7 @@ module Slovom
       second_digit = digits.to_s.reverse.chr.to_i
       output = basic_number(digits.to_s[0].to_i)+"десет"
       output += " и " + basic_number(second_digit, feminine) unless second_digit == 0
-      return output
+      output
     end
 
     def hundreds(digits, feminine=nil)
@@ -92,7 +92,7 @@ module Slovom
         when 1..20 then output += " и "
       end
       output += " " + numbers_slovom(final_digits, feminine) unless final_digits == 0
-      return output.gsub(/\s+/, " ").strip
+      output.gsub(/\s+/, " ").strip
     end
 
     def thousands(digits, feminine=nil)
@@ -114,7 +114,7 @@ module Slovom
       output = hh
       output += " и " unless (numbers_slovom(big).include?(" и ") && big.to_s.length == 3) or numbers_slovom(big) == "много"
       output += numbers_slovom(big) unless big == 0
-      return output.gsub(/\s+/, " ").strip
+      output.gsub(/\s+/, " ").strip
     end
 
     def gazillions(digits, feminine=nil)
@@ -145,7 +145,7 @@ module Slovom
       output = numbers_slovom(big_number) + word
       output += " и " unless numbers_slovom(small_number).include? " и " or numbers_slovom(small_number) == "много"
       output += numbers_slovom(small_number) unless numbers_slovom(small_number) == "много"
-      return output.gsub(/\s+/, " ").strip
+      output.gsub(/\s+/, " ").strip
     end
 
   end
