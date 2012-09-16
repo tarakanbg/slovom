@@ -4,55 +4,58 @@ require 'bigdecimal'
 
 class BigDecimal
   def slovom
-    Slovom.slovom(self)
+    Verbalizer.new(self).to_s
   end
 end
 
-module Slovom
-  def self.slovom(input)
-    input = input.round(2)
-    levs = input.fix.to_i
-    stotinki = input.frac.to_s('F').gsub("0.", '')
-    stotinki = (stotinki+"0")[0..1].to_i
-    output = ""
-    output += levs_slovom(levs) + levs_title(levs) unless levs_slovom(levs).nil? || levs_slovom(levs) == "много"
-    output += " и " unless levs_slovom(levs).nil? || levs_slovom(levs) == "много" || levs_slovom(stotinki, feminine=true).nil? || levs_slovom(stotinki, feminine=true) == "много"
-    output += levs_slovom(stotinki, feminine=true) + stotinki_title(stotinki) unless levs_slovom(stotinki, feminine=true).nil? || levs_slovom(stotinki, feminine=true) == "много"
-    return output
+class Verbalizer
+
+  attr_accessor :decimal
+  attr_accessor :levs
+  attr_accessor :stotinki
+  attr_accessor :output
+  attr_accessor :levs_title
+  attr_accessor :stotinki_title
+  attr_accessor :too_big
+
+  def initialize(decimal)
+    @decimal = decimal.round(2)
+    @levs = @decimal.fix.to_i
+    @stotinki = ((@decimal.frac.to_s('F').gsub("0.", ''))+"0")[0..1].to_i
+    @levs == 1 ? @levs_title = " лев" : @levs_title = " лева"
+    @stotinki == 1 ? @stotinki_title = " стотинка" : @stotinki_title = " стотинки"
+    @too_big = "много"
+    @output = ""
+    @output += levs_slovom(@levs) + @levs_title unless levs_slovom(@levs).nil? || levs_slovom(@levs) == "много"
+    @output += " и " unless levs_slovom(@levs).nil? || levs_slovom(@levs) == "много" || levs_slovom(@stotinki, feminine=true).nil? || levs_slovom(@stotinki, feminine=true) == "много"
+    @output += levs_slovom(@stotinki, feminine=true) + stotinki_title unless levs_slovom(@stotinki, feminine=true).nil? || levs_slovom(@stotinki, feminine=true) == "много"
+  end
+
+  def to_s
+    @output
   end
 
 private
-  def self.too_big
-    "много"
-  end
 
-  def self.levs_title(levs)
-    levs == 1 ? " лев" : " лева"
-  end
-
-  def self.stotinki_title(stotinki)
-    stotinki == 1 ? " стотинка" : " стотинки"
-  end
-
-  def self.levs_slovom(levs, feminine=nil)
+  def levs_slovom(levs, feminine=nil)
     case levs
       when 1..99 then below_hundred(levs, feminine)
       when 100..999 then hundreds(levs, feminine)
       when 1000..999999 then thousands(levs, feminine)
       when 1000000..999999999999999 then gazillions(levs, feminine)
       else
-        too_big
+        @too_big
     end
   end
 
-  def self.below_hundred(digits, feminine=nil)
+  def below_hundred(digits, feminine=nil)
     case digits
     when 1..19 then basic_number(digits, feminine)
     when 20..99 then round_ten(digits, feminine)
     end
   end
 
-  def self.basic_number(digits, feminine=nil)
+  def basic_number(digits, feminine=nil)
     case digits
       when 1 then
         feminine == true ? "една" : "един"
@@ -72,14 +75,14 @@ private
     end
   end
 
-  def self.round_ten(digits, feminine=nil)
+  def round_ten(digits, feminine=nil)
     second_digit = digits.to_s.reverse.chr.to_i
     output = basic_number(digits.to_s[0].to_i)+"десет"
     output += " и " + basic_number(second_digit, feminine) unless second_digit == 0
     return output
   end
 
-  def self.hundreds(digits, feminine=nil)
+  def hundreds(digits, feminine=nil)
     final_digits = digits.to_s[1..3].to_i
     first_digit = digits.to_s[0].to_i
     case first_digit
@@ -96,7 +99,7 @@ private
     return output.gsub(/\s+/, " ").strip
   end
 
-  def self.thousands(digits, feminine=nil)
+  def thousands(digits, feminine=nil)
     count = digits.to_s.length
     case count
       when 4 then
@@ -118,7 +121,7 @@ private
     return output.gsub(/\s+/, " ").strip
   end
 
-  def self.gazillions(digits, feminine=nil)
+  def gazillions(digits, feminine=nil)
     count = digits.to_s.length
     case count
       when 7..9 then
@@ -148,4 +151,5 @@ private
     output += levs_slovom(small_number) unless levs_slovom(small_number) == "много"
     return output.gsub(/\s+/, " ").strip
   end
+
 end
