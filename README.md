@@ -4,8 +4,14 @@ A Ruby gem which converts decimal currency numbers into text in Bulgarian langua
 
 Handles the specifics of verbally presenting numbers and prices in Bulgarian, including grammatical irregularities, differences due to gender, singularity and plurality and the logic of using or omitting the "and" conjunction from the resulting string.
 
-[![Build Status](https://secure.travis-ci.org/tarakanbg/slovom.png)](http://travis-ci.org/tarakanbg/slovom)
-[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/tarakanbg/slovom)
+[![Build Status](https://secure.travis-ci.org/tarakanbg/slovom.png?branch=master)](http://travis-ci.org/tarakanbg/slovom)
+[![Gemnasium](https://gemnasium.com/tarakanbg/slovom.png?travis)](https://gemnasium.com/tarakanbg/slovom)
+[![Gem Version](https://badge.fury.io/rb/slovom.png)](http://badge.fury.io/rb/slovom)
+[![Code Climate](https://codeclimate.com/github/tarakanbg/slovom.png)](https://codeclimate.com/github/tarakanbg/slovom)
+
+## Requirements
+
+[Ruby 1.9.3](http://www.ruby-lang.org/en/downloads/) or higher | **Supports Ruby 2.0!**
 
 ## Installation
 
@@ -48,17 +54,17 @@ Note the `.slovom` method is attached to the `BigDecimal` class, which is also u
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Added some feature'`)
-4. Make sure all tests are passing!
+4. Make sure all tests pass!
 5. Push to the branch (`git push origin my-new-feature`)
 6. Create new Pull Request
 
-Copyright © 2012 [Svilen Vassilev](http://about.me/svilen)
+## Credits
 
-*If you find my work useful or time-saving, you can endorse it or buy me a beer:*
+Copyright © 2013 [Svilen Vassilev](http://svilen.rubystudio.net)
 
-[![endorse](http://api.coderwall.com/svilenv/endorse.png)](http://coderwall.com/svilenv)
+*If you find my work useful or time-saving, you can endorse it or buy me a cup of coffee:*
+
+[![endorse](http://api.coderwall.com/svilenv/endorsecount.png)](http://coderwall.com/svilenv)
 [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5FR7AQA4PLD8A)
 
 Released under the [MIT LICENSE](https://github.com/tarakanbg/slovom/blob/master/LICENSE)
-
-
