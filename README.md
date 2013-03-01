@@ -49,6 +49,10 @@ product3.price.slovom => "седемдесет и пет стотинки"
 It parses numbers of up to 1 quadrillion (1000000000000000), as larger numbers are not likely to be used in financial transactions and hence no need to be expressed verbally. It returns the string "много" if higher number is used.
 Note the `.slovom` method is attached to the `BigDecimal` class, which is also used by default for decimals in Rails.
 
+## Changelog
+
+[Read here](https://github.com/tarakanbg/slovom/blob/master/CHANGELOG.md)
+
 ## Contributing
 
 1. Fork it
