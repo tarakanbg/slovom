@@ -5,7 +5,6 @@ A Ruby gem which converts decimal currency numbers into text in Bulgarian langua
 Handles the specifics of verbally presenting numbers and prices in Bulgarian, including grammatical irregularities, differences due to gender, singularity and plurality and the logic of using or omitting the "and" conjunction from the resulting string.
 
 [![Build Status](https://secure.travis-ci.org/tarakanbg/slovom.png?branch=master)](http://travis-ci.org/tarakanbg/slovom)
-[![Gemnasium](https://gemnasium.com/tarakanbg/slovom.png?travis)](https://gemnasium.com/tarakanbg/slovom)
 [![Gem Version](https://badge.fury.io/rb/slovom.png)](http://badge.fury.io/rb/slovom)
 [![Code Climate](https://codeclimate.com/github/tarakanbg/slovom.png)](https://codeclimate.com/github/tarakanbg/slovom)
 
@@ -65,10 +64,5 @@ Note the `.slovom` method is attached to the `BigDecimal` class, which is also u
 ## Credits
 
 Copyright © 2013 [Svilen Vassilev](http://svilen.rubystudio.net)
-
-*If you find my work useful or time-saving, you can endorse it or buy me a cup of coffee:*
-
-[![endorse](http://api.coderwall.com/svilenv/endorsecount.png)](http://coderwall.com/svilenv)
-[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5FR7AQA4PLD8A)
 
 Released under the [MIT LICENSE](https://github.com/tarakanbg/slovom/blob/master/LICENSE)
